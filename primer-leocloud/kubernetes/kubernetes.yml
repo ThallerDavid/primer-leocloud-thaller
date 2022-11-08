@@ -3,8 +3,8 @@ apiVersion: v1
 kind: Service
 metadata:
   annotations:
-    app.quarkus.io/commit-id: 66c322200872f32b81d42cede516228a707ea5c7
-    app.quarkus.io/build-timestamp: 2022-11-08 - 10:16:46 +0000
+    app.quarkus.io/commit-id: 36f6c70e4b292bc234862625049d8ccd2bcf261e
+    app.quarkus.io/build-timestamp: 2022-11-08 - 12:27:51 +0000
   labels:
     app.kubernetes.io/name: primer-leocloud
     app.kubernetes.io/version: 1.0-SNAPSHOT
@@ -18,33 +18,32 @@ spec:
   selector:
     app.kubernetes.io/name: primer-leocloud
     app.kubernetes.io/version: 1.0-SNAPSHOT
-  type: ClusterIP
 ---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
   annotations:
-    app.quarkus.io/commit-id: 66c322200872f32b81d42cede516228a707ea5c7
-    app.quarkus.io/build-timestamp: 2022-11-08 - 10:16:46 +0000
+    app.quarkus.io/commit-id: 36f6c70e4b292bc234862625049d8ccd2bcf261e
+    app.quarkus.io/build-timestamp: 2022-11-08 - 12:27:51 +0000
   labels:
-    app.kubernetes.io/name: primer-leocloud
     app.kubernetes.io/version: 1.0-SNAPSHOT
+    app.kubernetes.io/name: primer-leocloud
   name: primer-leocloud
   namespace: student-d-thaller
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app.kubernetes.io/name: primer-leocloud
       app.kubernetes.io/version: 1.0-SNAPSHOT
+      app.kubernetes.io/name: primer-leocloud
   template:
     metadata:
       annotations:
-        app.quarkus.io/commit-id: 66c322200872f32b81d42cede516228a707ea5c7
-        app.quarkus.io/build-timestamp: 2022-11-08 - 10:16:46 +0000
+        app.quarkus.io/commit-id: 36f6c70e4b292bc234862625049d8ccd2bcf261e
+        app.quarkus.io/build-timestamp: 2022-11-08 - 12:27:51 +0000
       labels:
-        app.kubernetes.io/name: primer-leocloud
         app.kubernetes.io/version: 1.0-SNAPSHOT
+        app.kubernetes.io/name: primer-leocloud
       namespace: student-d-thaller
     spec:
       containers:
@@ -60,3 +59,28 @@ spec:
             - containerPort: 8080
               name: http
               protocol: TCP
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  annotations:
+    app.quarkus.io/commit-id: 36f6c70e4b292bc234862625049d8ccd2bcf261e
+    app.quarkus.io/build-timestamp: 2022-11-08 - 12:27:51 +0000
+  labels:
+    app.kubernetes.io/name: primer-leocloud
+    app.kubernetes.io/version: 1.0-SNAPSHOT
+  name: primer-leocloud
+  namespace: student-d-thaller
+spec:
+  rules:
+    - host: student.cloud.htl-leonding.ac.at
+    - http:
+        paths:
+          - path: /primer(/|$|(.*)$
+            pathType: Prefix
+            backend:
+              service:
+                name: primer-leocloud
+                port:
+                  number: 80
+
